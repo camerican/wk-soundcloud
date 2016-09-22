@@ -11,7 +11,9 @@ $(document).ready(function(){
   SC.get("/tracks").then(function(response) {
     console.log(response);
     for (var i = 0; i < response.length; i++) {
-      $("ul").append("<li data-stream='"+ response[i].stream_url.match(/\/tracks\/[0-9]+/)[0] + "' data-duration='" + response[i].duration + "'>" + response[i].title + "</li>");
+      var art = response[i].artwork_url;
+      if( !art ) art = response[i].user.avatar_url
+      $("ul").append("<li data-stream='"+ response[i].stream_url.match(/\/tracks\/[0-9]+/)[0] + "' data-duration='" + response[i].duration + "'>" + response[i].title + "<img src='"+ art +"' /></li>");
     }
   }).then(function(){
     $("ul li").click(function(event){
