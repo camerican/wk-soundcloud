@@ -8,7 +8,7 @@ $(document).ready(function(){
   // track.artwork_url OR track.user.avatar_url
   // track.duration (milliseconds)
 
-  SC.get("/tracks").then(function(response) {
+  SC.get("/tracks", {q: "fish"}).then(function(response) {
     console.log(response);
     for (var i = 0; i < response.length; i++) {
       var art = response[i].artwork_url;
@@ -20,7 +20,12 @@ $(document).ready(function(){
       console.log(event);
       //to do: replace url with our stream-url
       SC.stream( $(event.target).attr('data-stream') ).then(function(player){
+        console.log(player);
         player.play();
+        //listen for a song finished event
+        player.on("finish",function(){
+          console.log( "Done-zo" );
+        });
       });
     });
     console.log("inside then");
@@ -32,6 +37,7 @@ $(document).ready(function(){
   //   $("body").append(data.html);
   //   console.log('oEmbed response: ', data);
   // });
+  //curl "http://api.soundcloud.com/tracks/13158665?client_id=f665fc458615b821cdf1a26b6d1657f6&q=fish"
 });
 
 //curl 'https://api.soundcloud.com/me/activities?limit=1&oauth_token=f665fc458615b821cdf1a26b6d1657f6'
